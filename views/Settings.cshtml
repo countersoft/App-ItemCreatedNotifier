@@ -1,0 +1,67 @@
+﻿@using System.Web.Mvc.Html;
+@model ItemCreatedNotifier.IssueAlertModel
+
+<div id="cs-adhoc-page">
+    <form id="createitemnotifier-form" action="" method="post" autocomplete="off">
+        <table class="data-entry-box">
+            <tr>
+                <td>Project</td>
+                <td>@Html.DropDownList("Project", Model.Projects, new { @class = "input-size9" })</td>
+            </tr>
+            <tr>
+                <td>Template</td>
+                <td>@Html.DropDownList("Template", Model.Templates, new { @class = "input-size9" })</td>
+            </tr>
+            <tr>
+                <td>Users</td>
+                <td>@Html.ListBox("User", Model.Users, new { @class = "input-size9" })</td>
+            </tr>
+            <tr><td colspan="2"><div class="divider"></div></td></tr>  
+            <tr>
+                <td colspan="2" align="right">
+                    <input id="createitemnotifier-save" type="button" value='@GetResource(Countersoft.Gemini.ResourceKeys.Save)' class='button-primary' />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function ()
+    {
+        $("#createitemnotifier-form").validate();
+                
+        $("#createitemnotifier-save").click(function (e)
+        {
+            gemini_commons.stopClick(e);
+
+            if (!$("#createitemnotifier-form").valid()) { return; }
+
+            var formData = $("#createitemnotifier-form").serialize();
+            gemini_ui.startBusy('#cs-adhoc-page .data-entry-box #createitemnotifier-save');
+            gemini_ajax.postCall("apps/createitemnotifier", "save",
+            function () {
+                gemini_popup.toast("Saved");
+                gemini_ui.stopBusy('#cs-adhoc-page .data-entry-box #createitemnotifier-save');
+            }, function () { gemini_ui.stopBusy('#cs-adhoc-page .data-entry-box #createitemnotifier-save'); }, formData, null, true);
+        });
+
+        $('#createitemnotifier-form #Project').change(function () {
+            var id = $(this).val();
+            gemini_ajax.postCall("apps/createitemnotifier", "configure",
+            function (response) {
+                if (response.Success) {
+                    $('#createitemnotifier-form #Template').val(response.Result.Data.Template);
+                    gemini_ui.chosenUpdate($("#createitemnotifier-form #Template"));
+                    $("#createitemnotifier-form #Template").change();
+
+                    $('#createitemnotifier-form #User').val(response.Result.Data.Users);
+                    gemini_ui.chosenUpdate($("#createitemnotifier-form #User"));
+                    $("#createitemnotifier-form #User").change();
+                }
+
+            }, function () { }, { projectid: id }, null, true);
+
+        });
+    });
+</script>
