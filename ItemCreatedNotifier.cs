@@ -47,7 +47,7 @@ namespace ItemCreatedNotifier
         public IEnumerable<SelectListItem> Templates { get; set; }
     }
 
-    [AppType(AppTypeEnum.Widget),
+    [AppType(AppTypeEnum.Config),
     AppGuid("DE5D3643-8433-4977-81FF-3E05A047DF58"),
     AppControlGuid("D5ED7A38-BE89-403E-8118-E5C3CC8C8E71"),
     AppAuthor("Countersoft"),
