@@ -208,6 +208,10 @@ namespace ItemCreatedNotifier
                 var metaManager = new MetaManager(userManager);
                 
                 var types = metaManager.TypeGetAll();
+
+                var OrganizationManager = new OrganizationManager(userManager);
+
+                var organizations = OrganizationManager.GetAll();
                 
                 var permissions = new PermissionSetManager(userManager);
                 
@@ -223,7 +227,7 @@ namespace ItemCreatedNotifier
                     {
                         if (permissionManager == null)
                         {
-                            permissionManager = new PermissionsManager(userDto, types, permissionSets, userManager.UserContext.Config.HelpDeskModeGroup, false);
+                            permissionManager = new PermissionsManager(userDto, types, permissionSets, organizations, userManager.UserContext.Config.HelpDeskModeGroup, false);
                         }
                         else
                         {
