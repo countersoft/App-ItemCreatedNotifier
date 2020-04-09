@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Practices.Unity;
+using Unity;
 using Countersoft.Gemini.Mailer;
 using Countersoft.Gemini.Infrastructure.Managers;
 using Countersoft.Gemini.Contracts.Caching;
